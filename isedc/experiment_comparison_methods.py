@@ -5,9 +5,6 @@ Created on August 10, 2025
 @author: FSM
 """
 
-Colab-compatible version of experiment_comparison_methods.py
-"""
-
 import time
 import matplotlib.pylab as plt
 import numpy as np
@@ -185,6 +182,7 @@ for class_name in classes:
         table.to_excel(os.path.join(base_dir, 'table.xlsx'))
         if counter == images_per_class:
             break
+
 
 
 
