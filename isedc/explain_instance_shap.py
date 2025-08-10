@@ -28,7 +28,11 @@ def explain_instance_shap(image, classifier, segments, number_features):
     explainer = shap.KernelExplainer(f, np.zeros((1,n_segments)))
     shap_values = explainer.shap_values(np.ones((1,n_segments)), nsamples=1000)  
     
-    relevant_shap = shap_values[np.argmax(classifier.predict(image[np.newaxis, ...])[0], axis = -1)]
+    pred_class = np.argmax(classifier.predict(image[np.newaxis, ...])[0])
+if len(shap_values) == 1:
+    relevant_shap = shap_values[0]  # اگر shap فقط برای یک کلاس باشد
+else:
+    relevant_shap = shap_values[pred_class]
     ranked_segments = np.argsort(-relevant_shap)
 
     explanation = np.full([image.shape[0],image.shape[1],image.shape[2]],0/255.0)
@@ -37,4 +41,5 @@ def explain_instance_shap(image, classifier, segments, number_features):
         
     segments_in_explanation = ranked_segments[0,0:number_features]
     return explanation, segments_in_explanation
+
 
